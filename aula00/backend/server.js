@@ -25,8 +25,6 @@ app.get('/soma/:a/:b', (req, res) => {
 });
 
 
-
-
 // Liga o servidor pra escutar na porta 3000
 app.listen(3000, () => {
   console.log("Servidor rodando em http://localhost:3000");
