@@ -29,6 +29,31 @@ app.get('/historico', (req, res) => {
   }
   const conteudo = fs.readFileSync('diario.txt', 'utf-8');
   res.send(`
+    <style>
+      body {
+        font-family: Arial;
+        text-align: center;
+        background: #f2f2f2;
+      }
+
+      pre {
+        background: white;
+        padding: 20px;
+        margin: 20px auto;
+        max-width: fit-content;
+        text-align: left;
+      }
+
+      a {
+        color: white;
+        background-color: cyan;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 10px;
+        text-decoration: none;
+
+      }
+</style>
     <h1>Diario do Estudante</h1>
     <pre>${conteudo}</pre>
     <a href="/">Enviar outra entrada</a>
