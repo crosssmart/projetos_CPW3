@@ -1,0 +1,17 @@
+[
+  {
+    "nome": "Teste 1",
+    "nota": 3,
+    "curso": "diferente 1"
+  },
+  {
+    "nome": "Teste 2",
+    "nota": 5,
+    "curso": "diferente 2"
+  },
+  {
+    "nome": "Teste 3",
+    "nota": 10,
+    "curso": "diferente 3"
+  }
+]
