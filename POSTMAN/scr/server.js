@@ -8,8 +8,8 @@ app.use(express.json());
 app.use('/api/pedidos', pedidoRoutes);
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
- console.log(`==================================================`);
- console.log(`Servidor de Segurança rodando na porta ${PORT}`);
- console.log(`URL Base: http://localhost:${PORT}`);
- console.log(`==================================================`);
+  console.log(`==================================================`);
+  console.log(`Servidor de Segurança rodando na porta ${PORT}`);
+  console.log(`URL Base: http://localhost:${PORT}`);
+  console.log(`==================================================`);
 });

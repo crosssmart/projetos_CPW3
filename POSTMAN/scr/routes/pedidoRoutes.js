@@ -16,5 +16,5 @@ router.get('/:id', autenticarJWT, verificarPossePedido, pedidoController.obterPe
 // ROTA 2: DELETE /api/pedidos/:id
 // Protegida por Autenticação JWT + Proteção contra BFLA (Apenas cargo ADMIN)
 router.delete('/:id', autenticarJWT, autorizarCargo('ADMIN'),
-pedidoController.deletarPedido);
+  pedidoController.deletarPedido);
 module.exports = router;
