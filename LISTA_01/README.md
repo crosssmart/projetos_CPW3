@@ -1,4 +1,4 @@
-# **<center>Construção de Páginas Web III <br><br> Lista 01</center>**
+# **<div align="center">Construção de Páginas Web III <br><br> Lista 01</div>**
 
 ## **Comandos necessários**
 
