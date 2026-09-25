@@ -8,6 +8,16 @@ Para iniciar o projeto com o nodejs:<br>
 Instalar o express<br>
 `npm i express`
 
+Para rodar o código e "ligar" o server<br>
+`node server.js`
+
+(opcional) Para não precisar ficar rodando o código o tempo todo instalei o nodemon
+como uma dependência de dev<br>
+`npm i nodemon --save-dev`
+
+Rodar com o nodemon<br>
+`npx nodemon server.js`
+
 ## **Parte 1 - Conceitos iniciais de Node.js, NPM e Express**
 
 **1. Explique com suas palavras o que é Node.js e qual é sua função em uma aplicação web.**
