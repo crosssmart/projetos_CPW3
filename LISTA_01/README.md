@@ -1,5 +1,4 @@
-**<h1 style="text-align: center">Construção de Páginas Web III <br><br>
-Lista 01</h1>**
+## **<center>Construção de Páginas Web III <br><br> Lista 01</center>**
 
 ## **Comandos necessários**
 
@@ -144,4 +143,5 @@ O Array depois de adicionar:<br>
 ![postman_error](./imgs/p4/postman_error.png)
 
 ## **Parte 5 - PUT: atualização de dados**
+
 **_<p style="text-align: right;">Code by Rogerio Filho</p>_**
