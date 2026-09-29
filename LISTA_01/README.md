@@ -284,4 +284,85 @@ splice(): É um método que pode adicionar, remover ou substituir elementos em q
 94. Utilize path.join() para montar o caminho de historico.txt.
 95. Explique a vantagem de utilizar path.join() no projeto.
 
-**_<p style="text-align: right;">Code by Rogerio Filho</p>_**
+## **Parte 13 - Tratamento de erros**
+
+96. Explique a função do bloco try/catch.
+97. Implemente tratamento de erro em pelo menos uma operação de leitura de arquivo.
+98. Implemente tratamento de erro em pelo menos uma operação de escrita de arquivo.
+99. Caso ocorra um erro interno inesperado em uma rota, retorne uma resposta de erro apropriada ao cliente.
+100.  Teste uma situação de erro controlado e descreva no README o que aconteceu.
+
+## **Parte 14 - Síncrono, assíncrono e Event Loop**
+
+101. Explique a diferença entre uma operação síncrona e uma operação assíncrona.
+102. Explique o que acontece com o servidor quando uma operação síncrona demorada
+     bloqueia a execução.
+103. Explique, de acordo com o conteúdo trabalhado, por que operações assíncronas são preferíveis em rotas de servidor.
+104. Explique o que é uma Promise.
+105. Explique a função de async.
+106. Explique a função de await.
+107. Compare readFileSync com readFile.
+108. Se utilizar a versão assíncrona no projeto, envolva a operação em try/catch.
+
+## **Parte 15 - Middlewares**
+
+109. Explique o que é um middleware no Express.
+110. Explique por que express.json() pode ser considerado um middleware.
+111. Cite duas outras responsabilidades que um middleware pode assumir em uma aplicação.
+112. Explique em que momento o middleware atua no fluxo requisição -> rota -> resposta.
+
+## **Parte 16 - Sessões e Cookies - SOMENTE TEORIA**
+
+_Nesta parte não é necessário instalar bibliotecas nem implementar login, sessão ou cookie. Responda somente com base nos conceitos estudados._
+
+113. Explique por que o protocolo HTTP é considerado stateless. 114. Explique o que é um Cookie.
+114. Explique o que é uma Sessão. 116. Onde os dados de um Cookie ficam armazenados?
+115. Onde os dados de uma Sessão ficam armazenados?
+116. Explique como Cookie e Sessão podem trabalhar juntos para reconhecer um usuário entre diferentes requisições.
+117. Cite um exemplo de uso adequado para Cookie.
+118. Cite um exemplo de uso adequado para Sessão.
+119. Explique, de forma conceitual, o que é Session ID.
+
+## **Parte 17 - Testes obrigatórios no Postman**
+
+122. Crie no Postman uma requisição para GET /.
+123. Crie uma requisição para GET /jogos.
+124. Crie uma requisição para GET /jogos/:id.
+125. Crie uma requisição para POST /jogos com Body JSON.
+126. Crie uma requisição para PUT /jogos/:id com Body JSON.
+127. Crie uma requisição para DELETE /jogos/:id.
+128. Crie uma requisição para GET /jogos/melhores.
+129. Crie uma requisição para GET /historico.
+130. Para cada operação principal, registre no README pelo menos um print que mostre a execução.
+131. Em POST e PUT, o print deverá mostrar o Body JSON utilizado.
+132. Inclua pelo menos um teste que resulte em status 404.
+133. Inclua pelo menos um teste que resulte em status 400.
+134. Inclua pelo menos um teste que resulte em status 201.
+135. Não será considerado suficiente entregar apenas o código sem evidência de execução das rotas.
+
+## **Parte 18 - Organização e entrega**
+
+**136. Organize o projeto de forma clara, separando os arquivos de dados do arquivo principal do servidor.**
+
+Estrutura mínima sugerida:<br>
+server.js<br>
+package.json<br>
+dados/jogos.json<br>
+dados/historico.txt<br>
+README.md
+
+**137. Não envie a pasta node_modules para o repositório. +138. Inclua no README os comandos necessários para instalar as dependências e iniciar o servidor. + 139. Inclua no README as respostas das questões teóricas. + 140. Inclua no README os prints solicitados dos testes no Postman.**
+
+[print da pasta como está]
+
+**141. Envie o link do repositório no GitHub conforme orientação da professora.**
+
+Esse é o link para o repositório que está a Lista 01:<br>
+https://github.com/crosssmart/projetos_CPW3/tree/main
+
+Outro link para ir direto na pasta correta:<br>
+https://github.com/crosssmart/projetos_CPW3/tree/main/LISTA_01
+
+<br>
+
+**_<p style="text-align: right;">Code by Rogerio Filho '-'</p>_**
