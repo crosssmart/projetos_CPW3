@@ -19,6 +19,20 @@ const jogos = [
     genero: "Mundo Aberto",
     ano: 2018,
     nota: 9.7
+  },
+  {
+    id: 4,
+    titulo: "Sonic the Hedgehog",
+    genero: "Plataforma",
+    ano: 2006,
+    nota: 7
+  },
+  {
+    id: 5,
+    titulo: "Aliens: Colonial Marines",
+    genero: "FPS",
+    ano: 2013,
+    nota: 4.5
   }
 ];
 

@@ -6,16 +6,26 @@ app.use(express.json());
 //importando dados
 const vetores = require("./data/vetores.js");
 
-app.get('/', async (req, res) => {
+app.get('/', (req, res) => {
   res.send(`API está funcionando da maneira correta!`)
 });
 
 //JOGOS 
-app.get('/jogos', async (req, res) => {
+app.get('/jogos', (req, res) => {
   res.send(vetores.jogos);
 });
 
-app.get('/jogos/:id', async (req, res) => {
+app.get('/jogos/melhores', (req, res) => {
+  const melhores = vetores.jogos.filter(j => j.nota >= 8)
+
+  if (melhores === 0) {
+    return res.status(404).json({ erro: "Jogo(s) não encontrado(s)!" });
+  }
+
+  res.json(melhores);
+});
+
+app.get('/jogos/:id', (req, res) => {
   const jogoId = Number(req.params.id)
   const jogo = vetores.jogos.find(jogo => jogo.id === jogoId);
 

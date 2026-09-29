@@ -196,12 +196,36 @@ Depois de Deletar:<br>
 
 ## **Parte 7 - Rota especial e manipulação de arrays**
 
-52. Crie GET /jogos/melhores.
-53. Essa rota deverá retornar apenas jogos com nota maior ou igual a 8.
-54. Utilize filter() para realizar a seleção.
-55. Teste a rota no Postman.
-56. Explique a diferença entre find(), findIndex() e filter().
-57. Explique a diferença entre push() e splice().
+**52. Crie GET /jogos/melhores. + 53. Essa rota deverá retornar apenas jogos com nota maior ou igual a 8. + 54. Utilize filter() para realizar a seleção.**
+
+![Código dos melhores completo](./imgs/p7/melhores_code.png)
+
+**55. Teste a rota no Postman.**
+
+Para conseguir exemplificar bem adicionei dois itens a mais no array que tem nota
+abaixo de 8.
+
+NOVO ARRAY BASE:<br>
+
+![Novo array base](./imgs/p7/novo_arrayBase.png)
+
+Teste:<br>
+
+![Resultado dos melhores](./imgs/p7/result_melhores_postman.png)
+
+**56. Explique a diferença entre find(), findIndex() e filter().**
+
+R: find(): Retorna o primeiro elemento que satisfaz a condição. Se nenhum for encontrado, retorna undefined.
+
+findIndex(): Retorna o índice do primeiro elemento que satisfaz a condição. Se nenhum for encontrado, retorna -1.
+
+filter(): Retorna um novo array com todos os elementos que satisfazem a condição. Se nenhum for encontrado, retorna um array vazio [].
+
+**57. Explique a diferença entre push() e splice().**
+
+R: push(): Adiciona um ou mais elementos no final do array e retorna o novo comprimento do array. Não remove nada.
+
+splice(): É um método que pode adicionar, remover ou substituir elementos em qualquer posição do array. Retorna um array com os elementos removidos (ou vazio, se nada foi removido). Modifica o array original.
 
 ## **Parte 8 - JSON: teoria e conversão**
 
