@@ -229,13 +229,19 @@ splice(): É um método que pode adicionar, remover ou substituir elementos em q
 
 ## **Parte 8 - JSON: teoria e conversão**
 
-58. Explique o que é JSON.
-59. Explique a função de JSON.parse().
-60. Explique a função de JSON.stringify().
-61. Explique por que um arquivo JSON armazenado no disco precisa ser lido como texto antes de ser manipulado como objeto/array JavaScript.
-62. Explique a finalidade dos parâmetros null, 2 em JSON.stringify(dados, null, 2).
-63. Identifique pelo menos três regras de sintaxe de um JSON válido.
-64. Explique a diferença entre um objeto JavaScript em memória e o texto armazenado em um arquivo .json.
+**58. Explique o que é JSON.**
+
+**59. Explique a função de JSON.parse().**
+
+**60. Explique a função de JSON.stringify().**
+
+**61. Explique por que um arquivo JSON armazenado no disco precisa ser lido como texto antes de ser manipulado como objeto/array JavaScript.**
+
+**62. Explique a finalidade dos parâmetros null, 2 em JSON.stringify(dados, null, 2).**
+
+**63. Identifique pelo menos três regras de sintaxe de um JSON válido.**
+
+**64. Explique a diferença entre um objeto JavaScript em memória e o texto armazenado em um arquivo .json.**
 
 ## **Parte 9 - Persistência em arquivo JSON**
 
