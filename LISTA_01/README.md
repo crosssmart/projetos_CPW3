@@ -231,72 +231,230 @@ splice(): É um método que pode adicionar, remover ou substituir elementos em q
 
 **58. Explique o que é JSON.**
 
+R: JSON (JavaScript Object Notation) é um formato leve de intercâmbio de dados, baseado em texto, usado para representar dados estruturados. Um JSON é composto por pares chave-valor, arrays, strings, números, booleanos e null.
+
 **59. Explique a função de JSON.parse().**
+
+R: JSON.parse() converte uma string no formato JSON em um objeto ou valor JavaScript correspondente.
 
 **60. Explique a função de JSON.stringify().**
 
+R: JSON.stringify() faz o oposto: converte um objeto ou valor JavaScript em uma string no formato JSON.
+
 **61. Explique por que um arquivo JSON armazenado no disco precisa ser lido como texto antes de ser manipulado como objeto/array JavaScript.**
+
+R: Um arquivo no disco é apenas uma sequência de bytes. O conteúdo JSON é texto puro, não um objeto em memória. O JavaScript não acessa diretamente o disco como se fosse memória; é preciso ler o arquivo (geralmente com fs.readFile no Node.js ou fetch no navegador), obtendo uma string.
 
 **62. Explique a finalidade dos parâmetros null, 2 em JSON.stringify(dados, null, 2).**
 
+R: O primeiro parâmetro (dados) é o valor a ser convertido.
+
+O segundo parâmetro (null) é o replacer, que permite filtrar ou transformar propriedades. null significa que nenhuma filtragem/transformação será feita.
+
+O terceiro parâmetro (2) é o space, que define a indentação. Com 2, a saída fica formatada com 2 espaços por nível, tornando o JSON legível.
+
 **63. Identifique pelo menos três regras de sintaxe de um JSON válido.**
+
+R: As chaves (nomes de propriedades) devem estar entre aspas duplas. As strings devem usar aspas duplas (não aspas simples).
+Não é permitido vírgula após o último elemento de um objeto ou array.
 
 **64. Explique a diferença entre um objeto JavaScript em memória e o texto armazenado em um arquivo .json.**
 
+R: Um objeto JavaScript em memória é uma estrutura viva, com propriedades e métodos, que pode ser manipulada diretamente. Já o texto em um arquivo .json é apenas uma representação serializada, estática e legível, sem comportamento.
+
 ## **Parte 9 - Persistência em arquivo JSON**
 
-65. Crie uma pasta dados e, dentro dela, o arquivo jogos.json.
-66. Transfira os jogos iniciais para jogos.json.
-67. Leia o conteúdo de jogos.json utilizando o módulo fs.
-68. Converta o conteúdo lido utilizando JSON.parse().
-69. Faça GET /jogos retornar os dados lidos do arquivo, em vez de depender somente de um array criado diretamente no server.js.
-70. No POST /jogos, leia o arquivo, faça JSON.parse(), adicione o novo jogo com push(), converta novamente com JSON.stringify() e grave o arquivo.
-71. Depois de cadastrar um jogo pelo Postman, reinicie o servidor e comprove que o jogo continua cadastrado.
-72. Explique por que os dados agora permanecem após o servidor ser desligado.
-73. Adapte o PUT para que a alteração também seja salva em jogos.json.
-74. Adapte o DELETE para que a exclusão também seja salva em jogos.json.
-75. Teste novamente GET, POST, PUT e DELETE no Postman após implementar a
-    persistência. Os dados do arquivo jogos.json deverão realmente mudar após as operações.
+**65. Crie uma pasta dados e, dentro dela, o arquivo jogos.json.**
+
+**66. Transfira os jogos iniciais para jogos.json.**
+
+**67. Leia o conteúdo de jogos.json utilizando o módulo fs.**
+
+**68. Converta o conteúdo lido utilizando JSON.parse().**
+
+**69. Faça GET /jogos retornar os dados lidos do arquivo, em vez de depender somente de um array criado diretamente no server.js.**
+
+**70. No POST /jogos, leia o arquivo, faça JSON.parse(), adicione o novo jogo com push(), converta novamente com JSON.stringify() e grave o arquivo.**
+
+**71. Depois de cadastrar um jogo pelo Postman, reinicie o servidor e comprove que o jogo continua cadastrado.**
+
+Cadastro:<br>
+![Novo cadastro pelo POSTMAN](./imgs/p9/cadastro_novo.png)
+
+Depois de fechar e abrir o servidor:<br>
+![Após abrir e fechar o server está salvo no arquivo](./imgs/p9/persistencia_JSON.png)
+
+**72. Explique por que os dados agora permanecem após o servidor ser desligado.**
+
+R: Antes, os jogos ficavam apenas em um array na memória RAM (vetores.jogos). A memória RAM é volátil: quando o processo Node.js é encerrado tudo que estava nela é descartado. Por isso, ao reiniciar o servidor, o array voltava ao estado inicial definido no server.js. Agora, os dados persistem porque passaram a ser gravados em disco, que é um meio de armazenamento não volátil.
+
+**73. Adapte o PUT para que a alteração também seja salva em jogos.json.**
+
+**74. Adapte o DELETE para que a exclusão também seja salva em jogos.json.**
+
+**75. Teste novamente GET, POST, PUT e DELETE no Postman após implementar a persistência. Os dados do arquivo jogos.json deverão realmente mudar após as operações.**
+
+Deletei o celeste novamente para testar com o mesmo jogo...
+
+GET:<br>
+
+![Get simples](./imgs/p9/get.png)
+
+POST:<br>
+
+![POST](./imgs/p9/post.png)
+
+PUT:<br>
+
+![PUT](./imgs/p9/put.png)
+
+Prova que mudou do PUT:<br>
+
+![Prova do PUT](./imgs/p9/prova_put.png)
+
+DELETE:<br>
+
+![DELETE](./imgs/p9/delete.png)
+
+Prova que realmente deletou:<br>
+
+![Prova do DELETE](./imgs/p9/prova_delete.png)
 
 ## **Parte 10 - Manipulação de arquivo TXT e histórico**
 
-76. Crie o arquivo historico.txt.
-77. Sempre que um jogo for cadastrado, acrescente uma linha no histórico.
-    Formato sugerido: JOGO CADASTRADO: Minecraft
-78. Sempre que um jogo for atualizado, acrescente uma linha informando a atualização.
-79. Sempre que um jogo for removido, acrescente uma linha informando a remoção.
-80. Utilize appendFile ou appendFileSync para acrescentar dados sem apagar o conteúdo anterior.
-81. Crie GET /historico para ler e retornar o conteúdo de historico.txt.
-82. Teste GET /historico no Postman.
-83. Explique a diferença entre writeFile e appendFile.
-84. Explique o que pode acontecer com o conteúdo anterior de um arquivo quando writeFile é utilizado sobre um arquivo que já existe.
-85. Explique a finalidade de readFile.
+**76. Crie o arquivo historico.txt.**
+
+**77. Sempre que um jogo for cadastrado, acrescente uma linha no histórico Formato sugerido: JOGO CADASTRADO: Minecraft**
+
+**78. Sempre que um jogo for atualizado, acrescente uma linha informando a atualização.**
+
+**79. Sempre que um jogo for removido, acrescente uma linha informando a remoção.**
+
+**80. Utilize appendFile ou appendFileSync para acrescentar dados sem apagar o conteúdo anterior.**
+
+**81. Crie GET /historico para ler e retornar o conteúdo de historico.txt.**
+
+**82. Teste GET /historico no Postman.**
+
+![Teste do hsitórico](./imgs/p10/teste_historico.png)
+
+**83. Explique a diferença entre writeFile e appendFile.**
+
+R: writeFile grava conteúdo em um arquivo substituindo tudo o que já existia nele. Se o arquivo não existir, ele é criado; se existir, seu conteúdo anterior é apagado e trocado pelo novo.
+
+appendFile grava conteúdo adicionando ao final do arquivo, preservando o que já estava lá. Se o arquivo não existir, ele também é criado.
+
+**84. Explique o que pode acontecer com o conteúdo anterior de um arquivo quando writeFile é utilizado sobre um arquivo que já existe.**
+
+R: Quando writeFile é usado sobre um arquivo existente, todo o conteúdo anterior é apagado e substituído pelo novo conteúdo. Não há mesclagem nem preservação: o arquivo é tratado como se fosse zerado antes da escrita.
+
+**85. Explique a finalidade de readFile.**
+
+R: A finalidade de readFile é ler o conteúdo de um arquivo do disco e disponibilizá-lo ao programa, geralmente como texto
 
 ## **Parte 11 - Exclusão de arquivos e módulo fs**
 
-86. Explique a função de fs.unlink().
-87. Explique o que acontece quando fs.unlink() é usado para remover um arquivo.
-88. Associe as operações abaixo aos métodos de arquivo correspondentes: criar/escrever, ler,
-    acrescentar e excluir.
-89. Explique o que significa o erro ENOENT.
-90. Cite uma situação do projeto em que ENOENT poderia ocorrer.
+**86. Explique a função de fs.unlink().**
+
+R: fs.unlink() é o método do módulo fs do Node.js usado para excluir (remover) um arquivo do sistema de arquivos.
+
+**87. Explique o que acontece quando fs.unlink() é usado para remover um arquivo.**
+
+R: O link entre o diretório e o arquivo é removido. Se não houver mais nenhum link/handle apontando para esse arquivo (o caso comum), o conteúdo do arquivo é apagado do disco e o espaço é liberado. O arquivo deixa de existir — não aparece mais em listagens (ls, dir) e não pode mais ser aberto para leitura ou escrita.
+
+**88. Associe as operações abaixo aos métodos de arquivo correspondentes: criar/escrever, ler, acrescentar e excluir.**
+
+R: Criar / escrever (sobrescrevendo) = fs.writeFile()
+Ler = fs.readFile()
+Acrescentar (adicionar ao final) = fs.appendFile()
+Excluir = fs.unlink()
+
+**89. Explique o que significa o erro ENOENT.**
+
+R: ENOENT é a abreviação de "Error NO ENTry" (erro: nenhuma entrada). É o código de erro retornado pelo sistema operacional quando se tenta acessar um arquivo ou diretório que não existe.
+
+**90. Cite uma situação do projeto em que ENOENT poderia ocorrer.**
+
+R: Situação - arquivo jogos.json ainda não existe:
+
+Se o servidor iniciar e alguém fizer GET /jogos antes de dados/jogos.json ter sido criado (por exemplo, você apagou a pasta dados ou esqueceu de criar o arquivo), a chamada fs.readFileSync(CAMINHO, 'utf-8') dentro de lerJogos() lançaria:
+
+`Error: ENOENT: no such file or directory, open '.../dados/jogos.json'`
 
 ## **Parte 12 - path e caminhos de arquivos**
 
-91. Explique para que serve o módulo path do Node.js.
-92. Explique por que escrever caminhos manualmente pode causar problemas entre
-    Windows, Linux e macOS.
-93. Utilize path.join() para montar o caminho de jogos.json.
-94. Utilize path.join() para montar o caminho de historico.txt.
-95. Explique a vantagem de utilizar path.join() no projeto.
+**91. Explique para que serve o módulo path do Node.js.**
+
+R: O módulo path é um módulo nativo do Node.js que serve para manipular e construir caminhos de arquivos e diretórios de forma segura e portável. Ele oferece funções utilitárias para juntar, normalizar, resolver, extrair partes e comparar caminhos, levando em conta as diferenças de cada sistema operacional.
+
+**92. Explique por que escrever caminhos manualmente pode causar problemas entre Windows, Linux e macOS.**
+
+R: Porque cada sistema operacional usa convenções diferentes para representar caminhos e com isso o código pode não funcionar em SOs diferentes. Para não deixar isso acontecer o path abstrai essas diferenças e gera o caminho no formato correto para o SO em que o código está rodando.
+
+Escrever caminhos manualmente é frágil porque:
+
+1. o separador de pastas muda entre SOs;
+2. caminhos absolutos têm formato diferente;
+3. Linux diferencia maiúsculas e Windows não;
+4. caracteres proibidos variam;
+5. caminhos relativos dependem do diretório de execução;
+
+Usar path.join e \_\_dirname elimina essas diferenças e torna o código portável, funcionando igual no Windows, Linux e macOS — que é exatamente o que um projeto Node.js precisa para rodar tanto na máquina do dev quanto no servidor de produção.
+
+**93. Utilize path.join() para montar o caminho de jogos.json.**
+
+**94. Utilize path.join() para montar o caminho de historico.txt.**
+
+**95. Explique a vantagem de utilizar path.join() no projeto.**
+
+R: path.join() junta os segmentos de caminho usando o separador nativo do sistema operacional e normaliza o resultado (remove barras duplicadas, resolve . e ..)
+
+1. Portabilidade entre sistemas: O mesmo código funciona nos três SOs, sem alterações.
+
+2. Evita erros de separador: Você não precisa se preocupar se deve usar \ ou /. O path.join escolhe o correto automaticamente.
+
+3. Uso de **dirname como ponto de partida: **dirname é o diretório do arquivo atual (server.js). Isso garante que o caminho seja resolvido a partir da localização do projeto, não do diretório de onde o Node foi executado. Sem isso, rodar node src/server.js de pastas diferentes poderia levar a caminhos errados e erros ENOENT.
+
+4. Código mais limpo e legível
 
 ## **Parte 13 - Tratamento de erros**
 
-96. Explique a função do bloco try/catch.
-97. Implemente tratamento de erro em pelo menos uma operação de leitura de arquivo.
-98. Implemente tratamento de erro em pelo menos uma operação de escrita de arquivo.
-99. Caso ocorra um erro interno inesperado em uma rota, retorne uma resposta de erro apropriada ao cliente.
-100.  Teste uma situação de erro controlado e descreva no README o que aconteceu.
+**96. Explique a função do bloco try/catch.**
+
+R: O bloco try/catch é a estrutura do JavaScript usada para tratar erros de forma controlada, evitando que uma exceção interrompa a execução do programa de forma abrupta. Ele permite que o código "tente" executar algo potencialmente perigoso e, se der errado, "capture" o erro e decida o que fazer com ele.
+
+**97. Implemente tratamento de erro em pelo menos uma operação de leitura de arquivo.**
+
+**98. Implemente tratamento de erro em pelo menos uma operação de escrita de arquivo.**
+
+**99. Caso ocorra um erro interno inesperado em uma rota, retorne uma resposta de erro apropriada ao cliente.**
+
+**100. Teste uma situação de erro controlado e descreva no README o que aconteceu.**
+
+**Cenário**: arquivo `jogos.json` inexistente
+
+Para verificar se o servidor trata a ausência do arquivo de dados sem cair,
+foi realizado o seguinte teste:
+
+Com o servidor em execução, o arquivo `dados/jogos.json` foi apagado manualmente.
+
+Em seguida, foi feita a requisição:
+
+`GET http://localhost:3000/jogos`
+
+Resultado observado:
+
+_Resposta da API: [] (array vazio), com status HTTP 200._
+
+Terminal do servidor:
+
+`jogos.json não existe. Criando arquivo vazio...`
+
+Arquivo recriado automaticamente: ao inspecionar dados/jogos.json,
+seu conteúdo era [].
+
+Servidor continuou no ar: um POST /jogos logo em seguida cadastrou
+um novo jogo normalmente, gravando-o no arquivo recém-criado.
 
 ## **Parte 14 - Síncrono, assíncrono e Event Loop**
 
