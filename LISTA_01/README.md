@@ -458,51 +458,149 @@ um novo jogo normalmente, gravando-o no arquivo recém-criado.
 
 ## **Parte 14 - Síncrono, assíncrono e Event Loop**
 
-101. Explique a diferença entre uma operação síncrona e uma operação assíncrona.
-102. Explique o que acontece com o servidor quando uma operação síncrona demorada
-     bloqueia a execução.
-103. Explique, de acordo com o conteúdo trabalhado, por que operações assíncronas são preferíveis em rotas de servidor.
-104. Explique o que é uma Promise.
-105. Explique a função de async.
-106. Explique a função de await.
-107. Compare readFileSync com readFile.
-108. Se utilizar a versão assíncrona no projeto, envolva a operação em try/catch.
+**101. Explique a diferença entre uma operação síncrona e uma operação assíncrona.**
+
+R: Uma operação síncrona é executada de forma sequencial e bloqueante: o programa só continua para a próxima linha de código depois que a operação atual for totalmente concluída.
+
+Já uma operação assíncrona é executada de forma não bloqueante: o programa dispara a operação e continua executando o restante do código, sem esperar o resultado. Quando a operação termina, uma função de callback (ou uma Promise) é acionada para tratar o resultado.
+
+**102. Explique o que acontece com o servidor quando uma operação síncrona demorada bloqueia a execução.**
+
+R: Quando uma operação síncrona demorada (como ler um arquivo grande ou fazer uma consulta pesada) é executada, ela bloqueia a thread principal do servidor. Como o Node.js é single-thread para o código JavaScript, isso significa que o servidor não consegue atender nenhuma outra requisição enquanto essa operação não terminar.
+
+**103. Explique, de acordo com o conteúdo trabalhado, por que operações assíncronas são preferíveis em rotas de servidor.**
+
+R: Operações assíncronas são preferíveis porque liberam a thread principal para atender outras requisições enquanto a operação demorada é processada em segundo plano (pelo event loop e pelo pool de threads do sistema). Isso permite que o servidor lide com muitas requisições simultâneas sem travar, melhorando a escalabilidade, o tempo de resposta e a experiência do usuário.
+
+**104. Explique o que é uma Promise.**
+
+R: Uma Promise é um objeto que representa o resultado eventual de uma operação assíncron e substituem o uso excessivo de callbacks aninhados, tornando o código mais legível e fácil de tratar erros.
+
+**105. Explique a função de async.**
+
+R: A palavra-chave async é usada antes de uma função para declará-la como assíncrona. Isso faz com que a função sempre retorne uma Promise. Se a função retornar um valor, esse valor será automaticamente envolvido em uma Promise resolvida. Se lançar um erro, a Promise será rejeitada.
+
+**106. Explique a função de await.**
+
+R: A palavra-chave await só pode ser usada dentro de funções async. Ela pausa a execução da função assíncrona até que a Promise à sua direita seja resolvida ou rejeitada, retornando o valor resolvido.
+
+**107. Compare readFileSync com readFile.**
+
+R: O readFileSync é síncrono e bloqueante: a execução para até o arquivo ser lido por completo, e o conteúdo é retornado diretamente. Erros são tratados com try/catch. Por travar a thread principal, não é indicado para servidores.
+
+Já o readFile é assíncrono e não bloqueante: dispara a leitura e retorna imediatamente, entregando o resultado depois via callback ou Promise. Erros são tratados no callback ou com .catch() / await. Por não bloquear o event loop, é a opção preferível em rotas de servidor.
+
+**108. Se utilizar a versão assíncrona no projeto, envolva a operação em try/catch.**
 
 ## **Parte 15 - Middlewares**
 
-109. Explique o que é um middleware no Express.
-110. Explique por que express.json() pode ser considerado um middleware.
-111. Cite duas outras responsabilidades que um middleware pode assumir em uma aplicação.
-112. Explique em que momento o middleware atua no fluxo requisição -> rota -> resposta.
+**109. Explique o que é um middleware no Express.**
+
+R: Um middleware no Express é uma função que recebe os objetos req (requisição), res (resposta) e next (função que passa o controle para o próximo middleware). Ele é executado entre a chegada da requisição e a resposta final, podendo inspecionar, modificar ou tratar a requisição antes que ela chegue à rota.
+
+**110. Explique por que express.json() pode ser considerado um middleware.**
+
+R: Porque express.json() retorna uma função middleware que é executada a cada requisição. Sua função é ler o corpo da requisição (quando o Content-Type é application/json), fazer o parse do JSON e disponibilizar o resultado em req.body. Depois disso, ele chama next() para que o fluxo continue até a rota. Ou seja, ele se encaixa exatamente no padrão de middleware: intercepta a requisição, faz um tratamento e passa adiante.
+
+**111. Cite duas outras responsabilidades que um middleware pode assumir em uma aplicação.**
+
+R: Autenticação e autorização: verificar se o usuário está logado ou tem permissão para acessar determinada rota, bloqueando a requisição caso não tenha. E log de requisições: registrar informações como método, URL, horário e IP de cada requisição que chega ao servidor.
+
+**112. Explique em que momento o middleware atua no fluxo requisição -> rota -> resposta.**
+
+R: O middleware atua entre a chegada da requisição e a execução da rota, ou seja, antes de a rota ser processada. Quando a requisição chega ao servidor, o Express percorre os middlewares na ordem em que foram registrados. Cada middleware pode tratar a requisição, modificá-la ou até encerrá-la. Se chamar next(), o fluxo segue para o próximo middleware ou para a rota correspondente.
 
 ## **Parte 16 - Sessões e Cookies - SOMENTE TEORIA**
 
 _Nesta parte não é necessário instalar bibliotecas nem implementar login, sessão ou cookie. Responda somente com base nos conceitos estudados._
 
-113. Explique por que o protocolo HTTP é considerado stateless. 114. Explique o que é um Cookie.
-114. Explique o que é uma Sessão. 116. Onde os dados de um Cookie ficam armazenados?
-115. Onde os dados de uma Sessão ficam armazenados?
-116. Explique como Cookie e Sessão podem trabalhar juntos para reconhecer um usuário entre diferentes requisições.
-117. Cite um exemplo de uso adequado para Cookie.
-118. Cite um exemplo de uso adequado para Sessão.
-119. Explique, de forma conceitual, o que é Session ID.
+**113. Explique por que o protocolo HTTP é considerado stateless.**
+
+R: O HTTP é considerado stateless (sem estado) porque cada requisição é tratada de forma independente: o servidor não guarda nenhuma informação sobre requisições anteriores do mesmo cliente.
+
+**114. Explique o que é um Cookie.**
+
+R: Um Cookie é um pequeno arquivo de dados enviado pelo servidor ao navegador do cliente através do cabeçalho Set-Cookie da resposta HTTP. O navegador o armazena localmente e o reenvia automaticamente ao servidor em requisições futuras para o mesmo domínio, através do cabeçalho Cookie.
+
+**115. Explique o que é uma Sessão.**
+
+R: Uma Sessão é um mecanismo de armazenamento de dados no servidor associado a um determinado usuário durante um período de interação com a aplicação. Diferente do cookie, os dados da sessão ficam no servidor, e o cliente guarda apenas um identificador (o Session ID) que referencia essa sessão.
+
+**116. Onde os dados de um Cookie ficam armazenados?**
+
+R: Os dados de um Cookie ficam armazenados no lado do cliente, ou seja, no navegador do usuário. O servidor não tem acesso direto a esse armazenamento; ele só recebe o cookie de volta quando o navegador o envia na requisição.
+
+**117. Onde os dados de uma Sessão ficam armazenados?**
+
+R: Os dados de uma Sessão ficam armazenados no lado do servidor. Podem ser guardados em memória, em banco de dados (Redis, MongoDB, PostgreSQL) ou em outros mecanismos de persistência. O cliente armazena apenas o Session ID, normalmente dentro de um cookie.
+
+**118. Explique como Cookie e Sessão podem trabalhar juntos para reconhecer um usuário entre diferentes requisições.**
+
+R: Quando o usuário faz login, o servidor cria uma sessão e guarda os dados dela no servidor, gerando um Session ID único. Esse Session ID é enviado ao navegador por meio de um cookie. Nas requisições seguintes, o navegador envia automaticamente esse cookie com o Session ID. O servidor, então, usa esse ID para localizar a sessão correspondente no seu armazenamento e recuperar os dados do usuário. Dessa forma o servidor consegue reconhecer o usuário entre requisições diferentes.
+
+**119. Cite um exemplo de uso adequado para Cookie.**
+
+R: Guardar a preferência de tema do usuário (claro ou escuro), ou o idioma escolhido, para que o site já carregue com essas configurações nas próximas visitas.
+
+**120. Cite um exemplo de uso adequado para Sessão.**
+
+R: Armazenar dados de login do usuário após a autenticação, como ID do usuário, permissões e informações sensíveis que não devem ficar expostas no cliente.
+
+**121. Explique, de forma conceitual, o que é Session ID.**
+
+R: O Session ID é um identificador único gerado pelo servidor no momento em que uma sessão é criada. Ele funciona como uma "chave" que o cliente guarda (normalmente em um cookie) e envia de volta ao servidor a cada requisição. O servidor usa esse ID para encontrar os dados da sessão correspondente no seu armazenamento. Conceitualmente, é como um número de protocolo: o cliente não carrega os dados em si, apenas a referência que permite ao servidor recuperá-los.
 
 ## **Parte 17 - Testes obrigatórios no Postman**
 
-122. Crie no Postman uma requisição para GET /.
-123. Crie uma requisição para GET /jogos.
-124. Crie uma requisição para GET /jogos/:id.
-125. Crie uma requisição para POST /jogos com Body JSON.
-126. Crie uma requisição para PUT /jogos/:id com Body JSON.
-127. Crie uma requisição para DELETE /jogos/:id.
-128. Crie uma requisição para GET /jogos/melhores.
-129. Crie uma requisição para GET /historico.
-130. Para cada operação principal, registre no README pelo menos um print que mostre a execução.
-131. Em POST e PUT, o print deverá mostrar o Body JSON utilizado.
-132. Inclua pelo menos um teste que resulte em status 404.
-133. Inclua pelo menos um teste que resulte em status 400.
-134. Inclua pelo menos um teste que resulte em status 201.
-135. Não será considerado suficiente entregar apenas o código sem evidência de execução das rotas.
+**122. Crie no Postman uma requisição para GET /.**
+
+![GET /](./imgs/p1/get_postman_01.png)
+
+**123. Crie uma requisição para GET /jogos.**
+
+![GET /jogos](./imgs/p17/get_jogos_postman.png)
+
+**124. Crie uma requisição para GET /jogos/:id.**
+
+![GET /jogos/:id](./imgs/p17/get_jogos_id.png)
+
+**125. Crie uma requisição para POST /jogos com Body JSON.**
+
+![POST /jogos](./imgs/p17/post_jogos_postman.png)
+
+**126. Crie uma requisição para PUT /jogos/:id com Body JSON.**
+
+![PUT /jogos/:id](./imgs/p17/put_jogos.png)
+
+**127. Crie uma requisição para DELETE /jogos/:id.**
+
+![DELETE /jogos/:id](./imgs/p17/delete_jogos.png)
+
+**128. Crie uma requisição para GET /jogos/melhores.**
+
+![GET /jogos/melhores](./imgs/p17/melhores_jogos.png)
+
+**129. Crie uma requisição para GET /historico.**
+
+![GET /historico](./imgs/p17/historico_postman.png)
+
+**130. Para cada operação principal, registre no README pelo menos um print que mostre a execução.**
+
+**131. Em POST e PUT, o print deverá mostrar o Body JSON utilizado.**
+
+**132. Inclua pelo menos um teste que resulte em status 404.**
+
+![ERROR 404](./imgs/p17/404.png)
+
+**133. Inclua pelo menos um teste que resulte em status 400.**
+
+![ERROR 400](./imgs/p17/400.png)
+
+**134. Inclua pelo menos um teste que resulte em status 201.**
+
+![STATUS 201](./imgs/p17/post_jogos_postman.png)
+
+**135. Não será considerado suficiente entregar apenas o código sem evidência de execução das rotas.**
 
 ## **Parte 18 - Organização e entrega**
 
@@ -515,9 +613,13 @@ dados/jogos.json<br>
 dados/historico.txt<br>
 README.md
 
-**137. Não envie a pasta node_modules para o repositório. +138. Inclua no README os comandos necessários para instalar as dependências e iniciar o servidor. + 139. Inclua no README as respostas das questões teóricas. + 140. Inclua no README os prints solicitados dos testes no Postman.**
+**137. Não envie a pasta node_modules para o repositório.**
 
-[print da pasta como está]
+**138. Inclua no README os comandos necessários para instalar as dependências e iniciar o servidor.**
+
+**139. Inclua no README as respostas das questões teóricas.**
+
+**140. Inclua no README os prints solicitados dos testes no Postman.**
 
 **141. Envie o link do repositório no GitHub conforme orientação da professora.**
 
