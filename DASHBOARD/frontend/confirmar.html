@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Confirmar Código</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    form {
+      background: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      width: 320px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, .1);
+    }
+
+    h2 {
+      color: #2c3e50;
+    }
+
+    p {
+      color: #666;
+      font-size: 14px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 15px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 22px;
+      text-align: center;
+      letter-spacing: 10px;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #27ae60;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background: #219150;
+    }
+  </style>
+</head>
+
+<body>
+  <form action="/confirmar" method="POST">
+    <h2>- Confirmação de Código -</h2>
+    <p>Insira o código de 4 dígitos enviado para o teu email.</p>
+    <input type="text" name="codigo" maxlength="4" pattern="\d{4}" placeholder="0000" required autofocus>
+    <button type="submit">Confirmar</button>
+  </form>
+</body>
+
+</html>
