@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-BR">
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       background: #f0f2f5;
       padding: 40px;
+      display: flex;
+      align-content: space-around;
     }
 
     .card {
@@ -43,6 +46,43 @@
     <p>Autenticação com sucesso via código de email.</p>
     <a href="/logout">Terminar sessão</a>
   </div>
+
+  <div class="card">
+    <h1>Lista de Produtos</h1>
+    <table border="1" id="tabela-produtos">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Preço (R$)</th>
+          <th>Quantidade</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    fetch('/api/produtos')
+      .then(response => response.json())
+      .then(produtos => {
+        const tbody = document.querySelector('#tabela-produtos tbody');
+        tbody.innerHTML = '';
+
+        produtos.forEach(prod => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${prod.id}</td>
+            <td>${prod.nome}</td>
+            <td>R$ ${prod.preco.toFixed(2)}</td>
+            <td>${prod.quantidade}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      })
+      .catch(err => console.error('Erro ao carregar produtos:', err));
+  </script>
 </body>
 
 </html>

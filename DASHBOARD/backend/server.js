@@ -5,6 +5,25 @@ const path = require('path');
 const app = express();
 require('dotenv').config();
 
+// Importa o SQLite nativo
+const sqlite3 = require('sqlite3').verbose();
+
+// --- CONFIGURAÇÃO DO BANCO DE DADOS (SQLite) ---
+const dbPath = path.join(__dirname, 'database.db');
+const db = new sqlite3.Database(dbPath);
+
+// Garante que a tabela existe no arranque da aplicação
+db.serialize(() => {
+  db.run(`
+CREATE TABLE IF NOT EXISTS produtos (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+nome TEXT NOT NULL,
+preco REAL NOT NULL,
+quantidade INTEGER NOT NULL
+)
+`);
+});
+
 // Permite que o Node leia os dados enviados pelo formulário HTML
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -33,6 +52,16 @@ function gerarCodigo() {
   return Math.floor(1000 + Math.random() * 9000).toString(); // 1000–9999
 }
 
+// Middleware de proteção
+function verificaAcesso(req, res, next) {
+  if (req.session.user && req.session.verificado) {
+    next();
+  } else {
+    res.redirect('/login');
+  }
+}
+
+// ------------ ROTAS ---------------
 // Página de login — pede APENAS o email
 app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/index.html'));
@@ -104,18 +133,47 @@ app.post('/confirmar', (req, res) => {
   });
 });
 
-// Middleware de proteção
-function verificaAcesso(req, res, next) {
-  if (req.session.user && req.session.verificado) {
-    next();
-  } else {
-    res.redirect('/login');
-  }
-}
-
 // Rota protegida
-app.get('/dashboard', verificaAcesso, (req, res) => {
+app.get('/dashboard', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/dashboard.html'));
+});
+
+// ----------- ROTAS DO BD ------------
+app.get('/api/produtos', verificaAcesso, (req, res) => {
+  const sql = 'SELECT * FROM produtos';
+
+  db.all(sql, [], (err, rows) => {
+    if (err) {
+      return res.status(500).json({ error: 'Erro ao consultar o banco de dados' });
+    }
+    res.json(rows);
+  });
+});
+
+//create
+app.post('/api/produtos/novo', verificaAcesso, (req, res) => {
+  const { nome, preco, quantidade } = req.body;
+  const sql = 'INSERT INTO produtos (nome, preco, quantidade) VALUES (?, ?, ?)';
+
+  db.run(sql, [nome, preco, quantidade], function (err) {
+    if (err) {
+      return res.status(500).send('Erro ao cadastrar produto');
+    }
+    res.redirect('/dashboard');
+  });
+});
+
+//delete
+app.get('/api/produtos/deletar/:id', verificaAcesso, (req, res) => {
+  const id = req.params.id;
+  const sql = 'DELETE FROM produtos WHERE id = ?';
+
+  db.run(sql, [id], function (err) {
+    if (err) {
+      return res.status(500).send('Erro ao excluir produto');
+    }
+    res.redirect('/dashboard');
+  });
 });
 
 // Logout
